@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-dark: #121212;
+  --color-volt: #CCFF00;
+  --color-grey: #475569;
+
+  /* Brutalist Shadows */
+  --shadow-sb: 8px 8px 0px #000;
+  --shadow-sw: 8px 8px 0px #fff;
+  --shadow-sv: 8px 8px 0px #CCFF00;
+  --shadow-s4: 4px 4px 0px #000;
+
+  /* Backgrounds */
+  --background-image-hero-grid: linear-gradient(rgba(204, 255, 0, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(204, 255, 0, 0.025) 1px, transparent 1px);
+  --background-size-grid: 64px 64px;
+
+  /* Fonts */
+  --font-ranchers: var(--font-ranchers);
+  --font-space: var(--font-space);
+  --font-sans: var(--font-jakarta);
+}
+
+/* Global Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-dark);
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Custom Utilities*/
+@utility writing-vertical {
+  writing-mode: vertical-rl;
+}
+
+@utility text-stroke-white {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 3px #ffffff;
+}
