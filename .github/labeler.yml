@@ -39,3 +39,11 @@ docs:
           - "*.md"
           - "docs/**"
 
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.test.*"
+          - "**/*.spec.*"
+          - "vitest.config.mts"
+          - "vitest.setup.ts"
+
