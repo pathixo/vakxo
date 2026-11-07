@@ -1,0 +1,40 @@
+changelog:
+  categories:
+    - title: "🚀 Features & Enhancements"
+      labels:
+        - "feature"
+        - "enhancement"
+        - "feat"
+    - title: "🐛 Bug Fixes"
+      labels:
+        - "bug"
+        - "fix"
+        - "bugfix"
+    - title: "💅 UI & Design"
+      labels:
+        - "ui"
+        - "styles"
+        - "frontend"
+    - title: "⚙️ CI & Automation"
+      labels:
+        - "ci"
+        - "automation"
+        - "build"
+    - title: "📦 Dependencies"
+      labels:
+        - "dependencies"
+        - "deps"
+    - title: "📝 Documentation"
+      labels:
+        - "documentation"
+        - "docs"
+    - title: "🧰 Maintenance & Chores"
+      labels:
+        - "chore"
+        - "refactor"
+        - "maintenance"
+  exclude:
+    labels:
+      - "ignore-for-release"
+      - "skip-changelog"
+

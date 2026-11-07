@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${ranchers.variable} ${spaceMono.variable} ${jakarta.variable} font-sans`}>
         {/* SIDEBAR */}
         <aside className="fixed max-md:hidden top-0 right-0 w-[200px] h-screen flex z-[200] border-l-4 border-black bg-white" aria-hidden="true">
-          {["Speak", "Listen", "Execute", "Control", "Ship"].map((lbl, i) => {
+          {["Speak", "Listen", "Execute", "Control", "Ship"].map((lbl) => {
             let colors = "bg-white text-black hover:bg-volt";
             if (lbl === "Listen") colors = "bg-volt text-black hover:bg-[#bbee00]";
             if (lbl === "Control") colors = "bg-dark text-white hover:bg-[#1a1a1a] border-l-4 !border-white";

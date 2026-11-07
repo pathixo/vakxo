@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 const TARGET_EPOCH = 1779235200000;
+const emptySubscribe = () => () => {};
 
 export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   useEffect(() => {
-    setMounted(true);
-
     const tick = () => {
       const diff = Math.max(0, TARGET_EPOCH - Date.now());
       setTimeLeft({

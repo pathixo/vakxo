@@ -34,7 +34,7 @@ export default function Home() {
             </h1>
 
             <p className="text-sm sm:text-base md:text-lg italic text-white/55 max-w-[500px] mx-auto lg:mx-0 leading-relaxed mb-9">
-              Vakxo is the world's first voice-native autonomous dev agent.
+              Vakxo is the world&apos;s first voice-native autonomous dev agent.
               Speak your intent — it writes the code, controls your desktop,
               runs your terminal, and ships.
             </p>
@@ -105,8 +105,8 @@ export default function Home() {
             { say: "Deploy to staging and share the link.", res: "Deployed. Slack message sent. Link copied." },
           ].map((cmd, i) => (
             <div key={i} className="flex-1 py-8 lg:py-11 flex flex-col gap-3 border-b-4 lg:border-b-0 lg:border-r-4 border-white/20 last:border-0 lg:px-6 first:lg:pl-0 last:lg:pr-0">
-              <span className="font-space text-[10px] font-bold uppercase tracking-[0.12em] text-volt">// You say:</span>
-              <div className="font-sans italic text-[clamp(13px,1.5vw,17px)] text-white leading-[1.45] font-semibold">"{cmd.say}"</div>
+              <span className="font-space text-[10px] font-bold uppercase tracking-[0.12em] text-volt">{"// You say:"}</span>
+              <div className="font-sans italic text-[clamp(13px,1.5vw,17px)] text-white leading-[1.45] font-semibold">&ldquo;{cmd.say}&rdquo;</div>
               <div className="font-ranchers text-[26px] text-volt">↓</div>
               <span className="font-space text-[10px] text-white/30 uppercase tracking-[0.08em]">→ {cmd.res}</span>
             </div>
@@ -134,7 +134,7 @@ export default function Home() {
       {/* ── FEATURES ── */}
       <section className="bg-white border-b-[8px] border-black px-5 sm:px-8 py-14 lg:py-20 lg:px-[60px]">
         <div className="max-w-screen-xl mx-auto">
-          <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/35 mb-6 block">// The Difference</span>
+          <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/35 mb-6 block">{"// The Difference"}</span>
 
           <Reveal>
             <div className="font-ranchers text-[clamp(42px,7vw,96px)] text-black uppercase leading-[0.88] -tracking-[0.01em] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.12)] mb-10 lg:mb-14">
@@ -169,7 +169,7 @@ export default function Home() {
       <section className="border-b-[8px] border-black">
         <div className="bg-white px-5 sm:px-8 lg:px-15 py-8 lg:py-10 border-b-4 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/30 block mb-2">// Why Everything Else Fails</span>
+            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/30 block mb-2">{"// Why Everything Else Fails"}</span>
             <h2 className="font-ranchers text-[44px] lg:text-[56px] text-black uppercase leading-none">The Truth.</h2>
           </div>
           <div className="font-space text-[10px] font-bold uppercase tracking-[0.12em] bg-volt text-black px-4 py-2.5 border-4 border-black shadow-s4 w-fit">Then vs. Now</div>
@@ -188,14 +188,14 @@ export default function Home() {
           <div key={i} className="grid grid-cols-1 md:grid-cols-2 border-b-4 border-black last:border-b-0">
             {/* old */}
             <div className="bg-black border-b-4 md:border-b-0 md:border-r-4 border-black px-6 py-10 sm:px-10 lg:p-[52px_60px] relative overflow-hidden group">
-              <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-grey mb-4 block">// Old Tools</span>
+              <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-grey mb-4 block">{"// Old Tools"}</span>
               <div className="font-ranchers text-[clamp(36px,5vw,68px)] text-grey uppercase leading-[0.9]" dangerouslySetInnerHTML={{ __html: row.old.title }} />
               <div className="mt-5 text-[13px] sm:text-[14px] text-grey/70 leading-[1.7] max-w-[380px]">{row.old.body}</div>
               <div className="absolute -bottom-7 right-2.5 font-ranchers text-[150px] lg:text-[200px] text-white/5 leading-none select-none pointer-events-none group-hover:text-white/10 transition-colors">X</div>
             </div>
             {/* new */}
             <div className="bg-volt px-6 py-10 sm:px-10 lg:p-[52px_60px] relative overflow-hidden group">
-              <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/45 mb-4 block">// Vakxo</span>
+              <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/45 mb-4 block">{"// Vakxo"}</span>
               <div className="font-ranchers text-[clamp(36px,5vw,68px)] text-black uppercase leading-[0.9] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.12)]" dangerouslySetInnerHTML={{ __html: row.nw.title }} />
               <div className="mt-5 text-[13px] sm:text-[14px] text-black/60 leading-[1.7] max-w-[380px]">{row.nw.body}</div>
               <div className="absolute -bottom-7 right-2.5 font-ranchers text-[150px] lg:text-[200px] text-black/5 leading-none select-none pointer-events-none group-hover:text-black/10 transition-colors">✓</div>
@@ -210,7 +210,7 @@ export default function Home() {
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
               <div>
-                <div className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-4">// End-to-End</div>
+                <div className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-4">{"// End-to-End"}</div>
                 <div className="font-ranchers text-[clamp(42px,7vw,96px)] text-white uppercase leading-[0.88] drop-shadow-[4px_4px_0px_#000]">
                   The <span className="text-volt">Loop</span><br />Blueprint
                 </div>
@@ -249,17 +249,17 @@ export default function Home() {
 
         <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[60px] items-center relative z-10">
           <Reveal>
-            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-5 block">// First Beta Launching Soon.</span>
+            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-5 block">{"// First Beta Launching Soon."}</span>
             <div className="font-ranchers text-[clamp(44px,7vw,90px)] text-black uppercase leading-[0.87] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.15)] mb-6">
               Your Turn<br />To Be<br />Iron Man.
             </div>
             <p className="text-[13px] sm:text-[14px] lg:text-[15px] text-black/60 leading-[1.75] max-w-[420px]">
-              Vakxo's first private beta is launching in less than a month. We're onboarding a select group of developers who want to feel what it's like to have a JARVIS-grade agent. Secure your spot.
+              Vakxo&apos;s first private beta is launching in less than a month. We&apos;re onboarding a select group of developers who want to feel what it&apos;s like to have a JARVIS-grade agent. Secure your spot.
             </p>
           </Reveal>
 
           <Reveal>
-            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-4 block">// First Beta Launches In</span>
+            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-4 block">{"// First Beta Launches In"}</span>
             <Countdown />
             <EmailForm source="waitlist" />
           </Reveal>
@@ -278,7 +278,7 @@ export default function Home() {
             <div className="sm:col-span-2 grid grid-cols-2 gap-8">
               <div /> {/* spacer */}
               <div>
-                <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-5 block">// Company</span>
+                <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-5 block">{"// Company"}</span>
                 <ul className="flex flex-col gap-3">
                   {[
                     { name: "About Pathixo", href: "https://pathixo.com/about" },
