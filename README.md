@@ -1,5 +1,4 @@
-# Vakxo — Landing Page
-
+# Vakxo
 Official landing page for **Vakxo**, the world's first voice-native autonomous dev agent.
 Built by [Pathixo](https://pathixo.com).
 
