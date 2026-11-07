@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Ranchers, Space_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -62,6 +63,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {children}
         </div>
+
+        {/* CLOUDFLARE WEB ANALYTICS */}
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          strategy="afterInteractive"
+          type="module"
+          data-cf-beacon={'{"token": "9888c6a5b38e4504b70c8e9743defe1d"}'}
+        />
       </body>
     </html>
   );
