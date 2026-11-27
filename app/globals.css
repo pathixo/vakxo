@@ -1,44 +1,60 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors */
-  --color-dark: #121212;
-  --color-volt: #CCFF00;
-  --color-grey: #475569;
-
-  /* Brutalist Shadows */
-  --shadow-sb: 8px 8px 0px #000;
-  --shadow-sw: 8px 8px 0px #fff;
-  --shadow-sv: 8px 8px 0px #CCFF00;
-  --shadow-s4: 4px 4px 0px #000;
-
-  /* Backgrounds */
-  --background-image-hero-grid: linear-gradient(rgba(204, 255, 0, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(204, 255, 0, 0.025) 1px, transparent 1px);
-  --background-size-grid: 64px 64px;
-
-  /* Fonts */
-  --font-ranchers: var(--font-ranchers);
-  --font-space: var(--font-space);
-  --font-sans: var(--font-jakarta);
+  --color-ink: #101210;
+  --color-ink-soft: #262925;
+  --color-paper: #f6f7f3;
+  --color-surface: #ffffff;
+  --color-surface-tonal: #ebede6;
+  --color-surface-tonal-high: #dfe3d8;
+  --color-line: #d7dbd0;
+  --color-volt: #ccff00;
+  --color-volt-soft: #e6f5a3;
+  --color-cobalt: #2342e6;
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
-/* Global Base Styles */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--color-dark);
-  color: #ffffff;
-  overflow-x: hidden;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Custom Utilities*/
-@utility writing-vertical {
-  writing-mode: vertical-rl;
+::selection {
+  background: var(--color-volt);
+  color: var(--color-ink);
 }
 
-@utility text-stroke-white {
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 3px #ffffff;
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.step-in {
+  opacity: 0;
+  animation: step-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: calc(var(--i) * 160ms + 120ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .step-in {
+    opacity: 1;
+    animation: none;
+  }
 }

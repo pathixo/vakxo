@@ -1,18 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, type FormEvent } from "react";
+
+type Status = { text: string; error?: boolean } | null;
 
 export default function EmailForm({ source }: { source: "hero" | "waitlist" }) {
   const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [toast, setToast] = useState<{ text: string; isError?: boolean } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<Status>(null);
+  const dark = source === "waitlist";
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!email || isSubmitting) return;
+    if (!email || submitting) return;
 
-    setIsSubmitting(true);
+    setSubmitting(true);
+    setStatus(null);
 
     try {
       const res = await fetch("/api/waitlist", {
@@ -20,86 +23,82 @@ export default function EmailForm({ source }: { source: "hero" | "waitlist" }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source }),
       });
-
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setToast({
-          text: data.error || "Something went wrong. Please try again.",
-          isError: true,
+        setStatus({
+          text: data.error || "Something went wrong. Try again in a moment.",
+          error: true,
         });
       } else {
-        const msg = data.duplicate
-          ? data.message || "✓ You're already on the waitlist!"
-          : source === "hero"
-          ? "✓ You're on the list. Invite incoming."
-          : "✓ Spot reserved. JARVIS awaits you.";
-
-        setToast({ text: msg });
+        setStatus({
+          text: data.duplicate
+            ? data.message || "You're already on the waitlist."
+            : "You're on the list. We'll email you when the beta opens.",
+        });
         setEmail("");
       }
     } catch {
-      setToast({
-        text: "Network error. Please try again.",
-        isError: true,
+      setStatus({
+        text: "Couldn't reach the server. Check your connection and try again.",
+        error: true,
       });
     } finally {
-      setIsSubmitting(false);
-      setTimeout(() => setToast(null), 4000);
+      setSubmitting(false);
     }
-  };
+  }
 
-  const isHero = source === "hero";
+  const inputStyle = dark
+    ? "border-white/15 bg-[#1a1d19] text-paper placeholder:text-white/40 focus-visible:border-volt focus-visible:outline-volt"
+    : "border-ink/15 bg-surface text-ink placeholder:text-ink/40 focus-visible:border-ink focus-visible:outline-ink";
+
+  const buttonStyle = dark
+    ? "bg-volt text-ink hover:bg-volt-soft focus-visible:outline-volt"
+    : "bg-ink text-paper hover:bg-ink-soft focus-visible:outline-ink";
+
+  const messageStyle = status?.error
+    ? dark
+      ? "text-red-300"
+      : "text-red-700"
+    : dark
+    ? "text-white/75"
+    : "text-ink/75";
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className={`flex border-4 border-black shadow-sv w-full ${
-          isHero ? "max-w-[500px]" : ""
-        }`}
-      >
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="flex items-stretch gap-1">
+        <label htmlFor={`email-${source}`} className="sr-only">
+          Email address
+        </label>
         <input
+          id={`email-${source}`}
           type="email"
-          placeholder="your@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={isSubmitting}
           required
-          className="flex-1 px-5 py-[18px] bg-white text-black font-space text-[12px] min-w-0 outline-none disabled:opacity-60"
+          autoComplete="email"
+          placeholder="you@company.com"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (status) setStatus(null);
+          }}
+          disabled={submitting}
+          className={`h-12 min-w-0 flex-1 rounded-l-full rounded-r-xl border pl-4 pr-3 text-sm outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60 sm:h-13 sm:pl-5 sm:pr-4 sm:text-base ${inputStyle}`}
         />
         <button
           type="submit"
-          disabled={isSubmitting}
-          className={`px-6 py-[18px] border-l-4 border-black font-ranchers text-xl whitespace-nowrap transition-colors disabled:opacity-70 disabled:cursor-not-allowed ${
-            isHero
-              ? "bg-volt text-black hover:bg-black hover:text-white"
-              : "bg-black text-white hover:bg-white hover:text-black"
-          }`}
+          disabled={submitting}
+          className={`h-12 shrink-0 cursor-pointer rounded-l-xl rounded-r-full px-4 text-xs font-semibold tracking-tight transition-[background-color,border-radius,transform] duration-200 active:scale-[0.98] active:rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-70 sm:h-13 sm:px-6 sm:text-sm ${buttonStyle}`}
         >
-          {isSubmitting
-            ? "Joining..."
-            : isHero
-            ? "Claim Spot"
-            : "Reserve My Spot"}
+          {submitting ? "Joining…" : "Request invite"}
         </button>
-      </form>
-
-      {/* Toast Notification */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: 80, x: "-50%" }}
-            animate={{ opacity: 1, y: 0, x: "-50%" }}
-            exit={{ opacity: 0, y: 80, x: "-50%" }}
-            className={`fixed bottom-8 left-1/2 border-4 border-black shadow-sb px-7 py-3.5 font-space text-[12px] font-bold uppercase tracking-[0.1em] z-[9999] whitespace-nowrap ${
-              toast.isError ? "bg-red-500 text-white" : "bg-volt text-black"
-            }`}
-          >
-            {toast.text}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+      </div>
+      <p
+        role="status"
+        aria-live="polite"
+        className={`mt-2.5 min-h-5 font-mono text-xs ${messageStyle}`}
+      >
+        {status?.text}
+      </p>
+    </form>
   );
 }

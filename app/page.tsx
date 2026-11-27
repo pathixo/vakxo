@@ -1,311 +1,716 @@
 import EmailForm from "@/components/EmailForm";
 import Countdown from "@/components/Countdown";
-import Reveal from "@/components/Reveal";
+import FaqList from "@/components/FaqList";
+
+const capabilities = [
+  {
+    index: "01 / VOICE",
+    title: "Speak, don't prompt",
+    body: "Describe what you want in plain English. No slash commands, no prompt templates, no syntax to memorize.",
+    surface: "bg-surface border border-line text-ink",
+    span: "md:col-span-7",
+  },
+  {
+    index: "02 / DESKTOP",
+    title: "Beyond the editor",
+    body: "Edits files, runs your terminal, inspects the browser, and manages local apps across your workspace.",
+    surface: "bg-surface-tonal text-ink",
+    span: "md:col-span-5",
+  },
+  {
+    index: "03 / AUTONOMY",
+    title: "Acts, then verifies",
+    body: "Runs your test suite, reads stack traces, patches failures, and commits only when checks pass.",
+    surface: "bg-volt-soft text-ink",
+    span: "md:col-span-5",
+  },
+  {
+    index: "04 / CONTEXT",
+    title: "Holds the full state",
+    body: "Tracks your codebase, running processes, and git history so every follow-up builds seamlessly on the last.",
+    surface: "bg-surface border border-line text-ink",
+    span: "md:col-span-7",
+  },
+];
+
+const workflowSteps = [
+  {
+    num: "01",
+    label: "INTENT",
+    title: "Say what you want",
+    body: "Speak naturally—fix a bug, refactor a module, or wire up an endpoint. Vakxo turns speech into an execution plan.",
+  },
+  {
+    num: "02",
+    label: "EXECUTION",
+    title: "Vakxo takes over",
+    body: "It edits files across the repo, runs terminal commands, checks the browser, and iterates on failing tests.",
+  },
+  {
+    num: "03",
+    label: "DELIVERY",
+    title: "Review and ship",
+    body: "Read the concise diff summary, say “ship it,” and Vakxo commits and opens the pull request.",
+  },
+];
+
+const surfaces = [
+  {
+    code: "01",
+    name: "Terminal & Shell",
+    detail: "Runs builds, migrations, package scripts, and dev servers.",
+  },
+  {
+    code: "02",
+    name: "Multi-File Codebase",
+    detail: "Traces symbols and applies atomic edits across modules.",
+  },
+  {
+    code: "03",
+    name: "Browser & DevTools",
+    detail: "Verifies rendered UI, console logs, and network state.",
+  },
+  {
+    code: "04",
+    name: "Test & Lint Loops",
+    detail: "Executes unit and integration suites until green.",
+  },
+  {
+    code: "05",
+    name: "Git & Pull Requests",
+    detail: "Creates branches, writes clean commits, and opens PRs.",
+  },
+  {
+    code: "06",
+    name: "Voice Activity Engine",
+    detail: "Low-latency speech capture tuned for code and symbol names.",
+  },
+];
+
+const plans = [
+  {
+    eyebrow: "LOCAL · MONTHLY",
+    name: "Local Monthly",
+    price: "₹499",
+    period: "/ month",
+    description:
+      "Run Vakxo with your own local models via Ollama, llama.cpp, and custom configs.",
+    features: [
+      "Ollama & llama.cpp support",
+      "Custom local model configuration",
+      "Full editor, terminal & browser",
+    ],
+    cta: "Available at launch",
+    surface: "bg-surface border border-line",
+  },
+  {
+    eyebrow: "LOCAL · 3 MONTHS",
+    name: "Local Quarterly",
+    price: "₹1,299",
+    period: "/ 3 months · ₹433/mo",
+    description:
+      "Same local-model capabilities at a lower effective monthly rate.",
+    features: [
+      "Everything in Local Monthly",
+      "Ollama & llama.cpp support",
+      "3-month discounted billing",
+    ],
+    cta: "Available at launch",
+    surface: "bg-surface-tonal",
+  },
+  {
+    eyebrow: "CLOUD + LOCAL · SOON",
+    name: "Vakxo Cloud",
+    price: "Coming soon",
+    period: "No free tier in beta",
+    description:
+      "Local model usage plus managed Vakxo cloud providers—lighter and faster.",
+    features: [
+      "Everything in Local plans",
+      "Managed cloud model providers",
+      "Lighter & faster execution",
+    ],
+    cta: "Coming soon",
+    surface: "bg-surface border border-line",
+  },
+];
+
+const useCases = [
+  {
+    category: "BUG TRIAGE",
+    command: "“Check why the webhook test is flaking and patch the race condition.”",
+    outcome: "Reads test logs, isolates async timing bug, fixes handler, re-runs suite 5x.",
+  },
+  {
+    category: "SCAFFOLDING",
+    command: "“Create an API route for team invites with Zod validation and unit tests.”",
+    outcome: "Generates route handler, schema validation, and Vitest specs matching repo conventions.",
+  },
+  {
+    category: "MIGRATIONS",
+    command: "“Add a status column to orders, run the local migration, and update types.”",
+    outcome: "Writes SQL migration, applies it in terminal, regenerates TypeScript types.",
+  },
+  {
+    category: "UI & BROWSER",
+    command: "“Open localhost:3000, check the mobile nav overflow, and fix the padding.”",
+    outcome: "Inspects rendered viewport in browser, edits layout classes, verifies zero overflow.",
+  },
+];
+
+const guarantees = [
+  {
+    code: "01",
+    title: "Runs on your machine",
+    detail:
+      "Connect local models through Ollama or llama.cpp so your codebase, prompts, and context stay entirely on your hardware.",
+  },
+  {
+    code: "02",
+    title: "Explicit ship gates",
+    detail:
+      "Vakxo stages changes and summarizes the diff first—nothing is committed, pushed, or opened as a PR without your go-ahead.",
+  },
+  {
+    code: "03",
+    title: "Transparent execution log",
+    detail:
+      "Every file read, terminal command, and test run is recorded clearly so you can inspect exactly what happened.",
+  },
+];
+
+const faqs = [
+  {
+    q: "How is Vakxo different from editor-only AI copilots?",
+    a: "Most copilots stop at autocomplete or a chat sidebar inside your IDE. Vakxo is voice-native and operates across your entire development loop—editor, terminal, local browser, and git—completing and verifying tasks end-to-end.",
+  },
+  {
+    q: "Do I have to memorize special voice commands or syntax?",
+    a: "No. You speak in plain English, just like pairing with another engineer. Vakxo resolves file paths, symbol names, and tooling steps from your live workspace context.",
+  },
+  {
+    q: "What languages, frameworks, and tools does Vakxo work with?",
+    a: "Because Vakxo works directly through your filesystem, shell, and browser, it supports modern web, backend, and CLI stacks including TypeScript, Next.js, Python, Go, Rust, Docker, and standard git workflows.",
+  },
+  {
+    q: "When does the private beta open?",
+    a: "The private beta opens December 4, 2026. We are onboarding developers in small waves—join the waitlist to receive your invite link by email.",
+  },
+  {
+    q: "Who builds Vakxo?",
+    a: "Vakxo is built by Pathixo Inc. Learn more about the team and company at pathixo.com.",
+  },
+];
+
+const companyLinks = [
+  { name: "support@vakxo.com", href: "mailto:support@vakxo.com", external: false },
+  { name: "About", href: "https://pathixo.com/about", external: true },
+  { name: "Careers", href: "https://pathixo.com/careers", external: true },
+  { name: "Contact", href: "https://pathixo.com#contact", external: true },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "Pathixo Inc.",
+      url: "https://pathixo.com",
+      email: "support@vakxo.com",
+      brand: {
+        "@type": "Brand",
+        name: "Vakxo",
+        url: "https://vakxo.com",
+      },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Vakxo",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "macOS, Windows, Linux",
+      description:
+        "Voice-native autonomous developer agent that writes code, runs terminal commands, works across your desktop and browser, and opens pull requests.",
+      url: "https://vakxo.com",
+      publisher: {
+        "@type": "Organization",
+        name: "Pathixo Inc.",
+      },
+      offers: {
+        "@type": "Offer",
+        price: "499",
+        priceCurrency: "INR",
+        availability: "https://schema.org/PreOrder",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
+    },
+  ],
+};
 
 export default function Home() {
   return (
-    <main className="overflow-x-hidden">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
 
-      {/* ── HERO ── */}
-      <section className="relative bg-dark min-h-screen flex flex-col items-center justify-center overflow-hidden px-5 sm:px-8 md:px-12 lg:px-16 py-24 lg:py-0">
+      <header className="border-b border-line bg-paper">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <a
+            href="#"
+            className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-ink"
+          >
+            <span
+              className="inline-block size-2.5 rounded-full bg-ink"
+              aria-hidden="true"
+            />
+            Vakxo
+          </a>
 
-        {/* grid bg */}
-        <div className="absolute inset-0 bg-hero-grid bg-grid pointer-events-none opacity-60" />
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-8 font-mono text-[11px] uppercase tracking-[0.14em] text-ink/60 md:flex"
+          >
+            <a href="#capabilities" className="transition-colors hover:text-ink">
+              Capabilities
+            </a>
+            <a href="#workflow" className="transition-colors hover:text-ink">
+              Workflow
+            </a>
+            <a href="#pricing" className="transition-colors hover:text-ink">
+              Pricing
+            </a>
+            <a href="#faq" className="transition-colors hover:text-ink">
+              FAQ
+            </a>
+          </nav>
 
-        {/* radial glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-volt/5 blur-[120px]" />
+          <a
+            href="#waitlist"
+            className="rounded-full bg-ink px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-paper transition-colors hover:bg-volt hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          >
+            Join beta
+          </a>
         </div>
+      </header>
 
-        {/* inner layout */}
-        <div className="relative z-10 w-full max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 xl:gap-20">
+      <main className="overflow-x-hidden">
+        {/* Hero */}
+        <section className="mx-auto flex min-h-[calc(100svh-69px)] max-w-6xl flex-col justify-center px-5 py-10 sm:px-6 sm:py-12 lg:py-16">
+          <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-14">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">
+                PRIVATE BETA · DEC 4
+              </p>
 
-          {/* — text col — */}
-          <div className="flex-1 w-full text-center lg:text-left">
+              <h1 className="mt-4 text-[clamp(3.25rem,14vw,6.25rem)] font-bold leading-[0.9] tracking-[-0.045em] text-ink">
+                Say it.
+                <br />
+                It ships.
+              </h1>
 
-            <div className="inline-block bg-volt border-4 border-black px-4 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.1em] text-black -rotate-2 mb-7 shadow-s4">
-              ✦ FIRST BETA INCOMING
-            </div>
+              <p className="mt-5 max-w-md text-base leading-relaxed text-ink/75 sm:mt-6 sm:text-lg">
+                Your machine, on voice command. Describe what you want out
+                loud—Vakxo writes multi-file code, runs your terminal, works
+                across your desktop, and opens the PR.
+              </p>
 
-            <h1 className="font-ranchers text-[clamp(64px,12vw,130px)] leading-[0.85] text-white uppercase -tracking-[0.01em] drop-shadow-[4px_4px_0px_#000] mb-6">
-              <span>Just</span><br />
-              <span className="text-volt">Say It.</span><br />
-              <span className="text-stroke-white">It Happens.</span>
-            </h1>
-
-            <p className="text-sm sm:text-base md:text-lg italic text-white/55 max-w-[500px] mx-auto lg:mx-0 leading-relaxed mb-9">
-              Vakxo is the world&apos;s first voice-native autonomous dev agent.
-              Speak your intent — it writes the code, controls your desktop,
-              runs your terminal, and ships.
-            </p>
-
-            {/* waitlist input */}
-            <div className="w-full max-w-[480px] mx-auto lg:mx-0">
-              <EmailForm source="hero" />
-              <span className="block mt-3 font-space text-[9px] text-white/35 uppercase tracking-[0.1em] text-center lg:text-left">
-                Join the waitlist · Secure early access
-              </span>
-            </div>
-
-            {/* social proof pills */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8">
-              {["3× Faster", "0 Context Switches", "38s Avg Task"].map((p) => (
-                <span key={p} className="font-space text-[9px] font-bold uppercase tracking-[0.1em] bg-white/8 border border-white/15 text-white/60 px-3 py-1.5 rounded-sm">
-                  {p}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* — orb col — */}
-          <div className="flex-1 w-full flex items-center justify-center">
-            <div className="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] lg:w-[420px] lg:h-[420px] flex items-center justify-center">
-
-              {/* rings */}
-              <div className="absolute inset-[20px] border-4 border-dashed border-volt/30 rounded-full animate-[spin_12s_linear_infinite]" />
-              <div className="absolute inset-0 border-4 border-dashed border-white/8 rounded-full animate-[spin_22s_linear_infinite_reverse]" />
-              <div className="absolute -inset-[18px] border-4 border-dashed border-volt/10 rounded-full animate-[spin_34s_linear_infinite]" />
-
-              {/* core orb */}
-              <div className="absolute inset-[70px] bg-volt border-[8px] border-black rounded-full shadow-[0_0_0_8px_#000,8px_8px_0_#fff] flex items-center justify-center animate-[pulse_3s_ease-in-out_infinite]">
-                <div className="font-ranchers text-[80px] sm:text-[90px] text-black drop-shadow-[3px_3px_0px_rgba(0,0,0,0.25)] select-none leading-none">A</div>
-              </div>
-
-              {/* floating chips */}
-              <div className="absolute top-2 -left-6 sm:-left-10 bg-white border-4 border-black px-3 py-2 shadow-sb font-space text-[9px] font-bold uppercase tracking-[0.08em] text-black -rotate-3 animate-[pulse_4s_ease-in-out_infinite_alternate]">
-                🎙 Voice Active
-              </div>
-              <div className="absolute top-8 -right-6 sm:-right-10 bg-dark border-4 border-volt px-3 py-2 shadow-sb font-space text-[9px] font-bold uppercase tracking-[0.08em] text-volt rotate-2 animate-[pulse_4s_ease-in-out_infinite_alternate]" style={{ animationDelay: "1s" }}>
-                ⌗ Desktop Control
-              </div>
-              <div className="absolute bottom-[70px] -right-4 sm:-right-8 bg-white border-4 border-black px-3 py-2 shadow-sb font-space text-[9px] font-bold uppercase tracking-[0.08em] text-black -rotate-2 animate-[pulse_4s_ease-in-out_infinite_alternate]" style={{ animationDelay: "0.5s" }}>
-                ✓ PR Merged
-              </div>
-
-              {/* waveform bar */}
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-[5px] items-end bg-black border-4 border-black px-5 py-3.5 shadow-sb">
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 font-space text-[9px] font-bold uppercase tracking-[0.1em] bg-volt text-black px-3 py-1.5 border-4 border-black whitespace-nowrap">
-                  Listening...
-                </div>
-                {[18, 32, 44, 28, 50, 36, 22, 40, 30, 16].map((h, i) => (
-                  <div key={i} className="w-[5px] bg-volt animate-[pulse_0.8s_ease-in-out_infinite_alternate]" style={{ height: `${h}px`, animationDelay: `${i * 0.1}s` }} />
-                ))}
+              <div className="mt-7 max-w-md sm:mt-8">
+                <EmailForm source="hero" />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ── COMMAND STRIP ── */}
-      <div className="bg-black border-b-[8px] border-black px-5 sm:px-8 lg:px-15">
-        <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row">
-          {[
-            { say: "Vakxo, fix the auth bug and open a PR.", res: "Bug fixed. Tests run. PR #47 opened. 38 seconds." },
-            { say: "Build the dashboard component and run it.", res: "Component built. Browser launched. Preview ready." },
-            { say: "Deploy to staging and share the link.", res: "Deployed. Slack message sent. Link copied." },
-          ].map((cmd, i) => (
-            <div key={i} className="flex-1 py-8 lg:py-11 flex flex-col gap-3 border-b-4 lg:border-b-0 lg:border-r-4 border-white/20 last:border-0 lg:px-6 first:lg:pl-0 last:lg:pr-0">
-              <span className="font-space text-[10px] font-bold uppercase tracking-[0.12em] text-volt">{"// You say:"}</span>
-              <div className="font-sans italic text-[clamp(13px,1.5vw,17px)] text-white leading-[1.45] font-semibold">&ldquo;{cmd.say}&rdquo;</div>
-              <div className="font-ranchers text-[26px] text-volt">↓</div>
-              <span className="font-space text-[10px] text-white/30 uppercase tracking-[0.08em]">→ {cmd.res}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── PROOF BAR ── */}
-      <div className="bg-volt border-b-[8px] border-black">
-        <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4">
-          {[
-            { num: "3x", label: "Faster Dev Cycles" },
-            { num: "0", label: "Context Switches" },
-            { num: "38s", label: "Avg Task Completion" },
-            { num: "1", label: "Voice. Full Control." },
-          ].map((pb, i) => (
-            <div key={i} className={`py-6 lg:py-7 px-4 lg:px-10 flex flex-col items-center gap-1 border-black ${i % 2 === 0 ? "border-r-4" : ""} lg:border-r-4 lg:last:border-r-0 ${i < 2 ? "border-b-4 lg:border-b-0" : ""}`}>
-              <div className="font-ranchers text-[42px] lg:text-[52px] text-black leading-none">{pb.num}</div>
-              <div className="font-space text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.12em] text-black/50 text-center">{pb.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── FEATURES ── */}
-      <section className="bg-white border-b-[8px] border-black px-5 sm:px-8 py-14 lg:py-20 lg:px-[60px]">
-        <div className="max-w-screen-xl mx-auto">
-          <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/35 mb-6 block">{"// The Difference"}</span>
-
-          <Reveal>
-            <div className="font-ranchers text-[clamp(42px,7vw,96px)] text-black uppercase leading-[0.88] -tracking-[0.01em] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.12)] mb-10 lg:mb-14">
-              Feels Like<br />Having A<br />Superpower
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <div className="grid grid-cols-1 sm:grid-cols-2 border-4 border-black">
-              {[
-                { n: "01", t: "Speak, Don't Type", d: "No prompts to engineer, no commands to memorize. Your voice is the IDE. Just say what you want built.", svg: "M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" },
-                { n: "02", t: "Owns Your Desktop", d: "Vakxo doesn't just live in your editor. It controls your entire desktop — opens apps, navigates browsers, manages files.", svg: "M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-6-1h4v-2h-4v2zm-7.5 0h2.5l1-2.5L11 17h2.5l-3-6-3 6z" },
-                { n: "03", t: "Acts, Not Assists", d: "Other tools suggest. Vakxo does. It runs your tests, fixes the failures, commits the fix, and tells you it's done.", svg: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" },
-                { n: "04", t: "Never Loses Context", d: "Vakxo holds the full picture — your codebase, your system state. Every follow-up builds on everything before.", svg: "M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" },
-              ].map((f, i) => (
-                <div key={i} className="p-7 sm:p-8 lg:p-[48px_44px] border-b-4 border-black sm:even:border-l-4 sm:[&:nth-last-child(-n+2)]:border-b-0 last:border-b-0 relative overflow-hidden hover:bg-[#f7f7f0] transition-colors group">
-                  <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/30 mb-5 block">{f.n} — Overview</span>
-                  <div className="w-12 h-12 bg-black border-4 border-black flex items-center justify-center mb-5 shadow-s4">
-                    <svg width="22" height="22" viewBox="0 0 24 24" className="fill-volt"><path d={f.svg} /></svg>
-                  </div>
-                  <h3 className="font-ranchers text-[26px] sm:text-[30px] lg:text-[36px] text-black uppercase leading-[0.9] mb-3">{f.t}</h3>
-                  <p className="text-[13px] sm:text-[14px] text-black/60 leading-[1.75] max-w-[360px]">{f.d}</p>
-                  <div className="absolute -bottom-5 right-2 font-ranchers text-[120px] lg:text-[180px] text-black/5 leading-none select-none pointer-events-none group-hover:text-black/10 transition-colors">{f.n}</div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── COMPARISON ── */}
-      <section className="border-b-[8px] border-black">
-        <div className="bg-white px-5 sm:px-8 lg:px-15 py-8 lg:py-10 border-b-4 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/30 block mb-2">{"// Why Everything Else Fails"}</span>
-            <h2 className="font-ranchers text-[44px] lg:text-[56px] text-black uppercase leading-none">The Truth.</h2>
-          </div>
-          <div className="font-space text-[10px] font-bold uppercase tracking-[0.12em] bg-volt text-black px-4 py-2.5 border-4 border-black shadow-s4 w-fit">Then vs. Now</div>
-        </div>
-
-        {[
-          {
-            old: { title: "Type.<br>Wait.<br>Copy.", body: "Tab to editor. Write a prompt. Wait. Copy. Paste. Run. Tab back. You're a human API." },
-            nw: { title: "Say It.<br>Watch<br>It.", body: "One sentence. Vakxo writes, runs, debugs, and ships — autonomously." }
-          },
-          {
-            old: { title: "Lives in<br>The<br>Editor.", body: "Copilot writes lines. But you still open the terminal. You still click through the browser." },
-            nw: { title: "Controls<br>Your<br>Desktop.", body: "Vakxo moves through your OS like you would. Open terminal? Done. Screenshot? Done." }
-          }
-        ].map((row, i) => (
-          <div key={i} className="grid grid-cols-1 md:grid-cols-2 border-b-4 border-black last:border-b-0">
-            {/* old */}
-            <div className="bg-black border-b-4 md:border-b-0 md:border-r-4 border-black px-6 py-10 sm:px-10 lg:p-[52px_60px] relative overflow-hidden group">
-              <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-grey mb-4 block">{"// Old Tools"}</span>
-              <div className="font-ranchers text-[clamp(36px,5vw,68px)] text-grey uppercase leading-[0.9]" dangerouslySetInnerHTML={{ __html: row.old.title }} />
-              <div className="mt-5 text-[13px] sm:text-[14px] text-grey/70 leading-[1.7] max-w-[380px]">{row.old.body}</div>
-              <div className="absolute -bottom-7 right-2.5 font-ranchers text-[150px] lg:text-[200px] text-white/5 leading-none select-none pointer-events-none group-hover:text-white/10 transition-colors">X</div>
-            </div>
-            {/* new */}
-            <div className="bg-volt px-6 py-10 sm:px-10 lg:p-[52px_60px] relative overflow-hidden group">
-              <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/45 mb-4 block">{"// Vakxo"}</span>
-              <div className="font-ranchers text-[clamp(36px,5vw,68px)] text-black uppercase leading-[0.9] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.12)]" dangerouslySetInnerHTML={{ __html: row.nw.title }} />
-              <div className="mt-5 text-[13px] sm:text-[14px] text-black/60 leading-[1.7] max-w-[380px]">{row.nw.body}</div>
-              <div className="absolute -bottom-7 right-2.5 font-ranchers text-[150px] lg:text-[200px] text-black/5 leading-none select-none pointer-events-none group-hover:text-black/10 transition-colors">✓</div>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* ── BLUEPRINT ── */}
-      <section className="bg-dark px-5 sm:px-8 py-14 lg:py-20 lg:px-[60px] border-b-[8px] border-black">
-        <div className="max-w-screen-xl mx-auto">
-          <Reveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
-              <div>
-                <div className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-4">{"// End-to-End"}</div>
-                <div className="font-ranchers text-[clamp(42px,7vw,96px)] text-white uppercase leading-[0.88] drop-shadow-[4px_4px_0px_#000]">
-                  The <span className="text-volt">Loop</span><br />Blueprint
-                </div>
-              </div>
-              <p className="max-w-[280px] text-[13px] sm:text-[14px] text-white/40 leading-[1.7] md:text-right">
-                From voice command to shipped feature — this is the Vakxo loop.
+            <div className="rounded-[24px] bg-surface-tonal p-6 sm:rounded-[28px] sm:p-9">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">
+                EXAMPLE
+              </p>
+              <p className="mt-4 text-xl font-medium leading-[1.24] tracking-tight text-ink sm:mt-5 sm:text-[26px]">
+                &ldquo;Fix the expired-token check in auth middleware and open a
+                PR.&rdquo;
+              </p>
+              <p className="mt-6 border-t border-ink/10 pt-4 font-mono text-xs text-ink/60 sm:mt-7">
+                middleware/auth.ts · 42 tests passed · PR #47
               </p>
             </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-            {[
-              { stk: "Step 01 — Intent", rot: "-rotate-2", svg: "M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z", title: "Speak Intent", body: "Say what you want in plain English. No special syntax. Vakxo maps it to tasks.", wm: "01" },
-              { stk: "Step 02 — Execute", rot: "rotate-[1.5deg]", svg: "M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 11H4v-2h11v2zm4-4H4V9h15v2z", title: "Takes Over", body: "Vakxo writes code, controls desktop, runs terminals, and navigates browsers autonomously.", wm: "02" },
-              { stk: "Step 03 — Done", rot: "-rotate-1", svg: "M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z", title: "Review & Ship", body: "Vakxo reports back. Review the summary, say 'ship it,' and the PR is open.", wm: "03" }
-            ].map((bp, i) => (
-              <Reveal key={i}>
-                <div className="bg-white border-[6px] lg:border-[8px] border-black p-7 lg:p-[40px_30px_36px] relative overflow-hidden shadow-sw h-full">
-                  <span className={`inline-block bg-volt border-4 border-black px-3 py-1.5 font-space text-[9px] font-bold uppercase tracking-[0.12em] text-black shadow-s4 mb-6 relative z-10 ${bp.rot}`}>{bp.stk}</span>
-                  <div className="w-11 h-11 bg-black border-4 border-black flex items-center justify-center mb-5 relative z-10 shadow-s4">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#CCFF00"><path d={bp.svg} /></svg>
-                  </div>
-                  <div className="font-ranchers text-[28px] lg:text-[34px] text-black uppercase leading-[0.92] mb-3 relative z-10">{bp.title}</div>
-                  <div className="text-[13px] text-black/60 leading-[1.75] relative z-10">{bp.body}</div>
-                  <div className="absolute -bottom-8 -right-2 font-ranchers text-[140px] lg:text-[200px] text-black/5 leading-none select-none pointer-events-none">{bp.wm}</div>
-                </div>
-              </Reveal>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── WAITLIST ── */}
-      <section id="waitlist" className="bg-volt border-b-[8px] border-black px-5 sm:px-8 py-16 lg:py-20 lg:px-[60px] relative overflow-hidden">
-        <div className="absolute -top-10 -right-10 font-ranchers text-[260px] lg:text-[440px] text-black/5 leading-none pointer-events-none select-none" />
-
-        <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[60px] items-center relative z-10">
-          <Reveal>
-            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-5 block">{"// First Beta Launching Soon."}</span>
-            <div className="font-ranchers text-[clamp(44px,7vw,90px)] text-black uppercase leading-[0.87] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.15)] mb-6">
-              Your Turn<br />To Be<br />Iron Man.
-            </div>
-            <p className="text-[13px] sm:text-[14px] lg:text-[15px] text-black/60 leading-[1.75] max-w-[420px]">
-              Vakxo&apos;s first private beta is launching in less than a month. We&apos;re onboarding a select group of developers who want to feel what it&apos;s like to have a JARVIS-grade agent. Secure your spot.
-            </p>
-          </Reveal>
-
-          <Reveal>
-            <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-4 block">{"// First Beta Launches In"}</span>
-            <Countdown />
-            <EmailForm source="waitlist" />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-black px-5 sm:px-8 pt-12 pb-10 lg:p-[64px_60px_48px]">
-        <div className="max-w-screen-xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 border-b-4 border-white/10 pb-10 mb-8">
+        {/* Manifesto / Jarvis-Moment Editorial Band */}
+        <section
+          aria-label="Core philosophy"
+          className="border-t border-line bg-ink py-14 text-paper sm:py-16 lg:py-24"
+        >
+          <div className="mx-auto grid max-w-6xl gap-6 px-5 sm:gap-8 sm:px-6 lg:grid-cols-[1.3fr_0.7fr] lg:items-end lg:gap-14">
             <div>
-              <div className="font-ranchers text-[44px] lg:text-[56px] text-white uppercase leading-[0.9] mb-4">Pa<span className="text-volt">thi</span>xo</div>
-              <p className="text-[13px] text-white/35 leading-[1.75] max-w-[240px]">Building Vakxo — the voice-first autonomous developer agent.</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-volt">
+                BUILT FOR FLOW STATE
+              </p>
+              <h2 className="mt-3 text-3xl font-bold leading-[0.96] tracking-[-0.04em] sm:mt-4 sm:text-5xl lg:text-6xl">
+                Stop typing to your tools.
+                <br />
+                Talk to your machine.
+              </h2>
+            </div>
+            <p className="text-base leading-relaxed text-white/70 sm:text-lg">
+              You think at the speed of speech, not keystrokes. Give the order
+              in plain English—Vakxo handles the files, the shell, the browser,
+              and the PR while you stay two steps ahead.
+            </p>
+          </div>
+        </section>
+
+        {/* Capabilities — Balanced Material 3 Expressive Bento */}
+        <section
+          id="capabilities"
+          aria-labelledby="capabilities-heading"
+          className="border-t border-line py-16 sm:py-20 lg:py-28"
+        >
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+                  CAPABILITIES
+                </p>
+                <h2
+                  id="capabilities-heading"
+                  className="mt-3 max-w-xl text-3xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+                >
+                  Finishes the job instead of suggesting one.
+                </h2>
+              </div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">
+                EDIT · EXECUTE · VERIFY · COMMIT
+              </p>
             </div>
 
-            <div className="sm:col-span-2 grid grid-cols-2 gap-8">
-              <div /> {/* spacer */}
+            <div className="mt-10 grid gap-4 sm:mt-12 md:grid-cols-12">
+              {capabilities.map((item) => (
+                <article
+                  key={item.index}
+                  className={`flex flex-col justify-between rounded-[24px] p-6 sm:rounded-[28px] sm:p-10 ${item.surface} ${item.span}`}
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/55">
+                    {item.index}
+                  </p>
+                  <div className="mt-8 sm:mt-12">
+                    <h3 className="text-xl font-semibold tracking-tight sm:text-3xl">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2.5 max-w-md text-sm leading-relaxed text-ink/70 sm:mt-3 sm:text-base">
+                      {item.body}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Workflow — Minimalist Hairline Sequence */}
+        <section
+          id="workflow"
+          aria-labelledby="workflow-heading"
+          className="border-t border-line bg-surface py-20 lg:py-28"
+        >
+          <div className="mx-auto max-w-6xl px-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+              WORKFLOW
+            </p>
+            <h2
+              id="workflow-heading"
+              className="mt-3 max-w-xl text-4xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+            >
+              From request to pull request.
+            </h2>
+
+            <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+              {workflowSteps.map((step) => (
+                <li key={step.num} className="border-t-2 border-ink pt-6">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-5xl font-bold leading-none tracking-[-0.04em] text-ink">
+                      {step.num}
+                    </span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">
+                      {step.label}
+                    </span>
+                  </div>
+                  <h3 className="mt-6 text-xl font-semibold tracking-tight">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/70 sm:text-base">
+                    {step.body}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Execution Surfaces — Clean Hairline Index */}
+        <section
+          id="surfaces"
+          aria-labelledby="surfaces-heading"
+          className="border-t border-line py-20 lg:py-28"
+        >
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+                EXECUTION SURFACES
+              </p>
+              <h2
+                id="surfaces-heading"
+                className="mt-3 text-4xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+              >
+                One agent. Every tool.
+              </h2>
+              <p className="mt-4 max-w-sm text-base leading-relaxed text-ink/70">
+                Vakxo connects spoken intent directly to the environment where
+                your software is built and tested.
+              </p>
+            </div>
+
+            <div className="border-t border-line">
+              {surfaces.map((surface) => (
+                <div
+                  key={surface.code}
+                  className="grid gap-1.5 border-b border-line py-4 sm:grid-cols-[44px_180px_1fr] sm:items-baseline sm:gap-4"
+                >
+                  <span className="font-mono text-xs text-ink/45">
+                    {surface.code}
+                  </span>
+                  <h3 className="text-base font-semibold tracking-tight">
+                    {surface.name}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-ink/65">
+                    {surface.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Use Cases — Spoken Commands in Practice */}
+        <section
+          id="use-cases"
+          aria-labelledby="use-cases-heading"
+          className="border-t border-line bg-surface py-20 lg:py-28"
+        >
+          <div className="mx-auto max-w-6xl px-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+              IN PRACTICE
+            </p>
+            <h2
+              id="use-cases-heading"
+              className="mt-3 max-w-xl text-4xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+            >
+              What you can say.
+            </h2>
+
+            <div className="mt-12 border-t border-line">
+              {useCases.map((item) => (
+                <div
+                  key={item.category}
+                  className="grid gap-3 border-b border-line py-6 lg:grid-cols-[140px_1.2fr_1fr] lg:items-baseline lg:gap-8"
+                >
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">
+                    {item.category}
+                  </span>
+                  <p className="text-base font-semibold tracking-tight text-ink sm:text-lg">
+                    {item.command}
+                  </p>
+                  <p className="text-sm leading-relaxed text-ink/65">
+                    {item.outcome}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Security & Control */}
+        <section
+          id="security"
+          aria-labelledby="security-heading"
+          className="border-t border-line py-20 lg:py-28"
+        >
+          <div className="mx-auto max-w-6xl px-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+              CONTROL &amp; PRIVACY
+            </p>
+            <h2
+              id="security-heading"
+              className="mt-3 max-w-xl text-4xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+            >
+              Built for real codebases.
+            </h2>
+
+            <div className="mt-12 grid gap-8 md:grid-cols-3">
+              {guarantees.map((g) => (
+                <div key={g.code} className="border-t border-ink/20 pt-5">
+                  <span className="font-mono text-xs text-ink/45">
+                    {g.code}
+                  </span>
+                  <h3 className="mt-4 text-xl font-semibold tracking-tight">
+                    {g.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-ink/70 sm:text-base">
+                    {g.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing Plans — Locked Preview */}
+        <section
+          id="pricing"
+          aria-labelledby="pricing-heading"
+          className="border-t border-line py-20 lg:py-28"
+        >
+          <div className="mx-auto max-w-6xl px-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+              PRICING
+            </p>
+            <h2
+              id="pricing-heading"
+              className="mt-3 max-w-xl text-4xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+            >
+              Local control or managed cloud.
+            </h2>
+
+            <div className="mt-12 grid gap-4 lg:grid-cols-3">
+              {plans.map((plan) => (
+                <article
+                  key={plan.name}
+                  className={`flex flex-col justify-between rounded-[28px] p-7 text-ink sm:p-8 ${plan.surface}`}
+                >
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">
+                      {plan.eyebrow}
+                    </p>
+
+                    <div className="mt-6 flex items-baseline gap-2">
+                      <span className="text-4xl font-bold tracking-[-0.04em]">
+                        {plan.price}
+                      </span>
+                      <span className="font-mono text-xs text-ink/50">
+                        {plan.period}
+                      </span>
+                    </div>
+
+                    <p className="mt-4 text-sm leading-relaxed text-ink/70">
+                      {plan.description}
+                    </p>
+
+                    <ul className="mt-6 space-y-2 text-sm text-ink/75">
+                      {plan.features.map((feat) => (
+                        <li key={feat}>— {feat}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    className="mt-8 flex h-11 w-full cursor-not-allowed items-center justify-center rounded-full border border-ink/15 bg-paper font-mono text-[11px] uppercase tracking-[0.1em] text-ink/45"
+                  >
+                    {plan.cta}
+                  </button>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section
+          id="faq"
+          aria-labelledby="faq-heading"
+          className="border-t border-line bg-surface py-20 lg:py-28"
+        >
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/50">
+                FAQ
+              </p>
+              <h2
+                id="faq-heading"
+                className="mt-3 text-4xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-5xl"
+              >
+                Questions.
+              </h2>
+            </div>
+
+            <FaqList items={faqs} />
+          </div>
+        </section>
+
+        {/* Waitlist & Countdown */}
+        <section id="waitlist" className="px-4 py-8 sm:px-6 sm:py-10 lg:py-14">
+          <div className="mx-auto max-w-6xl rounded-[24px] bg-ink px-5 py-10 text-paper sm:rounded-[32px] sm:px-10 sm:py-16 lg:px-14">
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
               <div>
-                <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-5 block">{"// Company"}</span>
-                <ul className="flex flex-col gap-3">
-                  {[
-                    { name: "About Pathixo", href: "https://pathixo.com/about" },
-                    { name: "Careers", href: "https://pathixo.com/careers" },
-                    { name: "Contact", href: "https://pathixo.com#contact" },
-                  ].map((link) => (
-                    <li key={link.name}>
-                      <a href={link.href} className="text-[13px] sm:text-[14px] text-white/55 hover:text-volt transition-colors" target="_blank" rel="noopener noreferrer">
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-volt">
+                  EARLY ACCESS · WAVE 01
+                </p>
+                <h2 className="mt-4 text-3xl font-bold leading-[0.95] tracking-[-0.035em] sm:text-6xl">
+                  Beta opens
+                  <br />
+                  December 4.
+                </h2>
+                <p className="mt-5 max-w-md text-base leading-relaxed text-white/65 sm:text-lg">
+                  We&apos;re inviting a focused cohort of developers first.
+                  Join the waitlist and we&apos;ll email you when your invite is
+                  ready.
+                </p>
+              </div>
+
+              <div className="space-y-8">
+                <Countdown />
+                <div className="max-w-md">
+                  <EmailForm source="waitlist" />
+                </div>
               </div>
             </div>
           </div>
+        </section>
+      </main>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="font-space text-[10px] text-white/20 uppercase tracking-[0.1em] text-center sm:text-left">
-              © 2026 Pathixo Inc. — All Rights Reserved
-            </span>
-            <div className="font-space text-[10px] font-bold uppercase tracking-[0.1em] text-black bg-volt px-3.5 py-1.5 border-4 border-black">
-              JARVIS Is Real Now
-            </div>
-          </div>
-        </div>
+      <footer className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 text-sm text-ink/60 sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-mono text-xs">
+          © 2026 Pathixo Inc. Vakxo is built by Pathixo.
+        </p>
+        <ul className="flex flex-wrap gap-6 font-mono text-xs uppercase tracking-[0.1em]">
+          {companyLinks.map((link) => (
+            <li key={link.name}>
+              <a
+                href={link.href}
+                {...(link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="transition-colors hover:text-ink"
+              >
+                {link.name}
+              </a>
+            </li>
+          ))}
+        </ul>
       </footer>
-    </main>
+    </>
   );
 }
