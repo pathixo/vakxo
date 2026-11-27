@@ -7,7 +7,7 @@ export default function Home() {
     <main className="overflow-x-hidden">
 
       {/* ── HERO ── */}
-      <section className="relative bg-dark min-h-screen flex flex-col items-center justify-center overflow-hidden px-5 sm:px-8 md:px-12 lg:px-16 py-24 lg:py-0">
+      <section className="relative bg-dark min-h-[calc(100svh-72px)] flex flex-col items-center justify-center overflow-hidden px-5 sm:px-8 md:px-12 lg:px-14 py-12 sm:py-16 lg:py-8">
 
         {/* grid bg */}
         <div className="absolute inset-0 bg-hero-grid bg-grid pointer-events-none opacity-60" />
@@ -18,22 +18,22 @@ export default function Home() {
         </div>
 
         {/* inner layout */}
-        <div className="relative z-10 w-full max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 xl:gap-20">
+        <div className="relative z-10 w-full max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 xl:gap-16">
 
           {/* — text col — */}
           <div className="flex-1 w-full text-center lg:text-left">
 
-            <div className="inline-block bg-volt border-4 border-black px-4 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.1em] text-black -rotate-2 mb-7 shadow-s4">
+            <div className="inline-block bg-volt border-4 border-black px-4 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.1em] text-black -rotate-2 mb-4 lg:mb-5 shadow-s4">
               ✦ FIRST BETA INCOMING
             </div>
 
-            <h1 className="font-ranchers text-[clamp(64px,12vw,130px)] leading-[0.85] text-white uppercase -tracking-[0.01em] drop-shadow-[4px_4px_0px_#000] mb-6">
+            <h1 className="font-ranchers text-[clamp(52px,8vw,108px)] leading-[0.86] text-white uppercase -tracking-[0.01em] drop-shadow-[4px_4px_0px_#000] mb-4 lg:mb-5">
               <span>Just</span><br />
               <span className="text-volt">Say It.</span><br />
               <span className="text-stroke-white">It Happens.</span>
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg italic text-white/55 max-w-[500px] mx-auto lg:mx-0 leading-relaxed mb-9">
+            <p className="text-sm sm:text-base italic text-white/55 max-w-[480px] mx-auto lg:mx-0 leading-relaxed mb-6 lg:mb-7">
               Vakxo is the world&apos;s first voice-native autonomous dev agent.
               Speak your intent — it writes the code, controls your desktop,
               runs your terminal, and ships.
@@ -42,13 +42,13 @@ export default function Home() {
             {/* waitlist input */}
             <div className="w-full max-w-[480px] mx-auto lg:mx-0">
               <EmailForm source="hero" />
-              <span className="block mt-3 font-space text-[9px] text-white/35 uppercase tracking-[0.1em] text-center lg:text-left">
+              <span className="block mt-2.5 font-space text-[9px] text-white/35 uppercase tracking-[0.1em] text-center lg:text-left">
                 Join the waitlist · Secure early access
               </span>
             </div>
 
             {/* social proof pills */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 mt-5 lg:mt-6">
               {["3× Faster", "0 Context Switches", "38s Avg Task"].map((p) => (
                 <span key={p} className="font-space text-[9px] font-bold uppercase tracking-[0.1em] bg-white/8 border border-white/15 text-white/60 px-3 py-1.5 rounded-sm">
                   {p}
@@ -59,7 +59,7 @@ export default function Home() {
 
           {/* — orb col — */}
           <div className="flex-1 w-full flex items-center justify-center">
-            <div className="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] lg:w-[420px] lg:h-[420px] flex items-center justify-center">
+            <div className="relative w-[270px] h-[270px] sm:w-[340px] sm:h-[340px] lg:w-[360px] lg:h-[360px] xl:w-[410px] xl:h-[410px] flex items-center justify-center">
 
               {/* rings */}
               <div className="absolute inset-[20px] border-4 border-dashed border-volt/30 rounded-full animate-[spin_12s_linear_infinite]" />
@@ -236,6 +236,121 @@ export default function Home() {
                   <div className="font-ranchers text-[28px] lg:text-[34px] text-black uppercase leading-[0.92] mb-3 relative z-10">{bp.title}</div>
                   <div className="text-[13px] text-black/60 leading-[1.75] relative z-10">{bp.body}</div>
                   <div className="absolute -bottom-8 -right-2 font-ranchers text-[140px] lg:text-[200px] text-black/5 leading-none select-none pointer-events-none">{bp.wm}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING ── */}
+      <section id="pricing" className="bg-white border-b-[8px] border-black px-5 sm:px-8 py-14 lg:py-20 lg:px-[60px]">
+        <div className="max-w-screen-xl mx-auto">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
+              <div>
+                <div className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-black/40 mb-4">{"// Pricing"}</div>
+                <div className="font-ranchers text-[clamp(42px,7vw,96px)] text-black uppercase leading-[0.88] drop-shadow-[4px_4px_0px_rgba(204,255,0,1)]">
+                  Pick Your<br />Power
+                </div>
+              </div>
+              <p className="max-w-[300px] text-[13px] sm:text-[14px] text-black/60 leading-[1.7] md:text-right">
+                Run local models on your machine or wait for our managed cloud. No free tier during beta.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {[
+              {
+                stk: "Local — Monthly",
+                rot: "-rotate-1",
+                name: "Local Monthly",
+                price: "₹499",
+                period: "/ month",
+                desc: "Run Vakxo with your own local models. Connect Ollama, llama.cpp, and custom configs.",
+                features: [
+                  "Ollama & llama.cpp local models",
+                  "Configure models to your needs",
+                  "Full editor, terminal & browser",
+                ],
+                cta: "Available at launch",
+                dark: false,
+              },
+              {
+                stk: "Local — 3 Months",
+                rot: "rotate-1",
+                name: "Local Quarterly",
+                price: "₹1,299",
+                period: "/ 3 months · ₹433/mo",
+                desc: "Same full local-model capabilities at a discounted rate for a 3-month commitment.",
+                features: [
+                  "Everything in Local Monthly",
+                  "Ollama & llama.cpp local models",
+                  "Discounted 3-month billing",
+                ],
+                cta: "Available at launch",
+                dark: false,
+              },
+              {
+                stk: "Cloud + Local",
+                rot: "-rotate-1",
+                name: "Vakxo Cloud",
+                price: "Soon",
+                period: "Coming soon",
+                desc: "Local model usage plus managed Vakxo cloud providers — lighter, faster, better.",
+                features: [
+                  "Everything in Local plans",
+                  "Managed Vakxo cloud providers",
+                  "Lighter & faster execution",
+                ],
+                cta: "Coming soon",
+                dark: true,
+              },
+            ].map((plan) => (
+              <Reveal key={plan.name}>
+                <div
+                  className={`border-[6px] lg:border-[8px] border-black p-7 lg:p-8 flex flex-col justify-between h-full ${
+                    plan.dark ? "bg-black text-white shadow-sv" : "bg-white text-black shadow-sb"
+                  }`}
+                >
+                  <div>
+                    <span
+                      className={`inline-block bg-volt border-4 border-black px-3 py-1.5 font-space text-[9px] font-bold uppercase tracking-[0.12em] text-black shadow-s4 mb-6 ${plan.rot}`}
+                    >
+                      {plan.stk}
+                    </span>
+                    <div className="font-ranchers text-[28px] lg:text-[34px] uppercase leading-[0.95] mb-3">
+                      {plan.name}
+                    </div>
+                    <div className="flex items-baseline gap-2 mb-4">
+                      <span className={`font-ranchers text-[44px] lg:text-[52px] leading-none ${plan.dark ? "text-volt" : "text-black"}`}>
+                        {plan.price}
+                      </span>
+                      <span className={`font-space text-[11px] font-bold uppercase tracking-[0.08em] ${plan.dark ? "text-white/50" : "text-black/45"}`}>
+                        {plan.period}
+                      </span>
+                    </div>
+                    <p className={`text-[13px] leading-[1.7] mb-6 ${plan.dark ? "text-white/65" : "text-black/60"}`}>
+                      {plan.desc}
+                    </p>
+                    <ul className={`space-y-2 border-t-4 pt-4 text-[13px] font-medium ${plan.dark ? "border-white/15 text-white/80" : "border-black/10 text-black/80"}`}>
+                      {plan.features.map((feat) => (
+                        <li key={feat}>✓ {feat}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    className={`mt-8 w-full border-4 border-black py-3.5 font-space text-[11px] font-bold uppercase tracking-[0.12em] cursor-not-allowed ${
+                      plan.dark ? "bg-white/10 text-white/45 border-white/20" : "bg-black/5 text-black/40"
+                    }`}
+                  >
+                    {plan.cta}
+                  </button>
                 </div>
               </Reveal>
             ))}
