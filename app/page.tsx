@@ -390,8 +390,17 @@ export default function Home() {
               <p className="text-[13px] text-white/35 leading-[1.75] max-w-[240px]">Building Vakxo — the voice-first autonomous developer agent.</p>
             </div>
 
-            <div className="sm:col-span-2 grid grid-cols-2 gap-8">
-              <div /> {/* spacer */}
+            <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div>
+                <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-5 block">{"// Support"}</span>
+                <ul className="flex flex-col gap-3">
+                  <li>
+                    <a href="mailto:support@vakxo.com" className="text-[13px] sm:text-[14px] text-white/55 hover:text-volt transition-colors">
+                      support@vakxo.com
+                    </a>
+                  </li>
+                </ul>
+              </div>
               <div>
                 <span className="font-space text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 mb-5 block">{"// Company"}</span>
                 <ul className="flex flex-col gap-3">
