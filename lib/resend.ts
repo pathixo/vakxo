@@ -3,7 +3,7 @@ import { Resend } from "resend";
 const resendApiKey = process.env.RESEND_API_KEY || "re_placeholder_key";
 export const resend = new Resend(resendApiKey);
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Vakxo <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Vakxo <onboarding@vakxo.com>";
 
 export async function sendWaitlistEmail(to: string) {
   if (!process.env.RESEND_API_KEY) {
