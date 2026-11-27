@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-const TARGET_EPOCH = 1779235200000;
+const TARGET_EPOCH = new Date("2026-12-04T00:00:00+05:30").getTime();
 const emptySubscribe = () => () => {};
 
 export default function Countdown() {
@@ -39,13 +39,16 @@ export default function Countdown() {
   ];
 
   return (
-    <div className="flex gap-4 mb-10">
+    <div className="mb-10 grid grid-cols-4 gap-2 sm:flex sm:gap-4">
       {blocks.map((b) => (
-        <div key={b.label} className="bg-white border-4 border-black shadow-sb px-5 py-[18px] flex flex-col items-center min-w-[82px]">
-          <div className="font-sans text-[44px] w-16 text-center font-extrabold text-black leading-none -tracking-[0.04em]">
+        <div
+          key={b.label}
+          className="flex flex-col items-center border-4 border-black bg-white px-2 py-3 shadow-sb sm:min-w-[82px] sm:px-5 sm:py-[18px]"
+        >
+          <div className="font-sans w-full text-center text-2xl font-extrabold leading-none -tracking-[0.04em] text-black tabular-nums sm:w-16 sm:text-[44px]">
             {b.value}
           </div>
-          <div className="font-space text-[9px] font-bold uppercase tracking-[0.12em] text-black/40 mt-1.5">
+          <div className="font-space mt-1.5 text-[9px] font-bold uppercase tracking-[0.12em] text-black/40">
             {b.label}
           </div>
         </div>
